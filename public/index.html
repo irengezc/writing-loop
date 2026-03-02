@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinguaLog</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+</head>
+<body>
+  <div id="root">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <div class="logo-mark">L</div>
+        <span class="logo-text">LinguaLog</span>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="writing-room">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>Writing Room</span>
+        </button>
+        <button class="nav-item" data-view="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="mistake-library">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Mistake Library</span>
+          <span class="nav-badge" id="mistake-badge" style="display:none">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="streak" id="streak-display" style="display:none">
+          <span class="streak-fire">🔥</span>
+          <span id="streak-count">0</span>
+          <span class="streak-label">day streak</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" id="app">
+      <div class="loading-screen">
+        <div class="loader-ring"></div>
+        <p>Loading LinguaLog…</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Practice Modal -->
+  <div class="modal-overlay" id="practice-modal" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-box" id="practice-content"></div>
+  </div>
+
+  <!-- Rewrite Prompt Modal -->
+  <div class="modal-overlay" id="rewrite-prompt-modal" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-box" style="max-width:520px">
+      <div class="modal-header">
+        <div class="modal-title">Customize Rewrite Style</div>
+        <button class="modal-close" onclick="closeRewritePromptModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-muted" style="margin-bottom:8px">Controls how the <strong>Native Speaker</strong> rewrite is generated. Use <code>{language}</code>, <code>{register}</code>, and <code>{medium}</code> as dynamic placeholders.</p>
+        <textarea id="rewrite-prompt-input" class="write-textarea" style="min-height:110px;font-size:13px;font-family:monospace;resize:vertical"></textarea>
+      </div>
+      <div class="modal-footer" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="resetRewritePrompt()">Reset to default</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" onclick="closeRewritePromptModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveRewritePrompt()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

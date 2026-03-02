@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinguaLog — Design System</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { background: var(--bg); padding: var(--space-12); max-width: 1100px; margin: 0 auto; }
+
+    /* DS-specific layout */
+    .ds-page-title {
+      font-size: var(--font-size-10); font-weight: var(--font-weight-bold); color: var(--text);
+      letter-spacing: var(--letter-spacing-tight2); margin-bottom: var(--space-1);
+    }
+    .ds-page-sub {
+      font-size: var(--font-size-4); color: var(--text-muted); margin-bottom: var(--space-12);
+    }
+    .ds-section {
+      margin-bottom: var(--space-12);
+    }
+    .ds-section-title {
+      font-size: var(--font-size-0); font-weight: var(--font-weight-bold); text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-widest); color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-3); margin-bottom: var(--space-6);
+    }
+    .ds-row {
+      display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start; margin-bottom: var(--space-3);
+    }
+    .ds-col { display: flex; flex-direction: column; gap: var(--space-2); }
+    .ds-label {
+      font-size: var(--font-size-0); color: var(--text-light); font-weight: var(--font-weight-medium);
+      letter-spacing: 0.03em; margin-top: var(--space-1);
+    }
+
+    /* Color swatches */
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--space-3); }
+    .swatch { border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+    .swatch-color { height: var(--space-16); }
+    .swatch-info { background: var(--surface); padding: var(--space-2) var(--space-3); }
+    .swatch-name { font-size: var(--font-size-2); font-weight: var(--font-weight-semibold); color: var(--text); }
+    .swatch-hex  { font-size: var(--font-size-0); color: var(--text-muted); font-family: var(--font-mono); }
+
+    /* Typography specimens */
+    .type-row {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: var(--space-4) var(--space-4); margin-bottom: var(--space-2);
+      display: flex; align-items: baseline; gap: var(--space-4);
+    }
+    .type-spec { font-size: var(--font-size-0); color: var(--text-light); font-family: var(--font-mono); white-space: nowrap; min-width: 160px; }
+
+    /* Radius demos */
+    .radius-box {
+      width: 80px; height: 80px; background: var(--primary-light);
+      border: 2px solid var(--primary); display: flex; align-items: center;
+      justify-content: center; font-size: var(--font-size-0); font-weight: var(--font-weight-semibold); color: var(--primary);
+    }
+
+    /* Shadow demos */
+    .shadow-box {
+      width: 120px; height: 80px; background: var(--surface);
+      border-radius: var(--radius); display: flex; align-items: center;
+      justify-content: center; font-size: var(--font-size-0); font-weight: var(--font-weight-semibold); color: var(--text-muted);
+    }
+
+    /* Component cards */
+    .ds-component-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-4);
+    }
+    .ds-component-label {
+      font-size: var(--font-size-0); font-weight: var(--font-weight-bold); text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-widest); color: var(--text-muted); margin-bottom: var(--space-4);
+    }
+
+    /* Nav demo wrapper */
+    .nav-demo {
+      width: 200px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: var(--space-2); display: flex; flex-direction: column; gap: var(--space-1);
+    }
+
+    /* Inline diff demo */
+    .diff-demo { font-size: var(--font-size-4); line-height: 2; }
+  </style>
+</head>
+<body>
+
+  <p class="ds-page-title">LinguaLog Design System</p>
+  <p class="ds-page-sub">Tokens, components, and patterns</p>
+
+  <!-- ── 1. COLOR TOKENS ─────────────────────────────────────────────────── -->
+  <div class="ds-section" id="colors">
+    <div class="ds-section-title">Color Tokens</div>
+
+    <div class="ds-component-label">Base / Surface</div>
+    <div class="swatch-grid mb-5">
+      <div class="swatch"><div class="swatch-color" style="background:#EDE8DF"></div><div class="swatch-info"><div class="swatch-name">--bg</div><div class="swatch-hex">#EDE8DF</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F7F4EF"></div><div class="swatch-info"><div class="swatch-name">--surface</div><div class="swatch-hex">#F7F4EF</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F0EBE2"></div><div class="swatch-info"><div class="swatch-name">--surface-hover</div><div class="swatch-hex">#F0EBE2</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#D8CFBE"></div><div class="swatch-info"><div class="swatch-name">--border</div><div class="swatch-hex">#D8CFBE</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A8845E"></div><div class="swatch-info"><div class="swatch-name">--border-focus</div><div class="swatch-hex">#A8845E</div></div></div>
+    </div>
+
+    <div class="ds-component-label">Text</div>
+    <div class="swatch-grid mb-5">
+      <div class="swatch"><div class="swatch-color" style="background:#2A1F14"></div><div class="swatch-info"><div class="swatch-name">--text</div><div class="swatch-hex">#2A1F14</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7A6A58"></div><div class="swatch-info"><div class="swatch-name">--text-muted</div><div class="swatch-hex">#7A6A58</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A89880"></div><div class="swatch-info"><div class="swatch-name">--text-light</div><div class="swatch-hex">#A89880</div></div></div>
+    </div>
+
+    <div class="ds-component-label">Primary</div>
+    <div class="swatch-grid mb-5">
+      <div class="swatch"><div class="swatch-color" style="background:#8B6347"></div><div class="swatch-info"><div class="swatch-name">--primary</div><div class="swatch-hex">#8B6347</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7A5238"></div><div class="swatch-info"><div class="swatch-name">--primary-hover</div><div class="swatch-hex">#7A5238</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F0E6D8"></div><div class="swatch-info"><div class="swatch-name">--primary-light</div><div class="swatch-hex">#F0E6D8</div></div></div>
+    </div>
+
+    <div class="ds-component-label">Semantic</div>
+    <div class="swatch-grid mb-5">
+      <div class="swatch"><div class="swatch-color" style="background:#5A7040"></div><div class="swatch-info"><div class="swatch-name">--success</div><div class="swatch-hex">#5A7040</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#EEF2E4"></div><div class="swatch-info"><div class="swatch-name">--success-bg</div><div class="swatch-hex">#EEF2E4</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#BED0A0"></div><div class="swatch-info"><div class="swatch-name">--success-border</div><div class="swatch-hex">#BED0A0</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#B07840"></div><div class="swatch-info"><div class="swatch-name">--warning</div><div class="swatch-hex">#B07840</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FAF0E2"></div><div class="swatch-info"><div class="swatch-name">--warning-bg</div><div class="swatch-hex">#FAF0E2</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#E4C490"></div><div class="swatch-info"><div class="swatch-name">--warning-border</div><div class="swatch-hex">#E4C490</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A04030"></div><div class="swatch-info"><div class="swatch-name">--danger</div><div class="swatch-hex">#A04030</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#F5EDEA"></div><div class="swatch-info"><div class="swatch-name">--danger-bg</div><div class="swatch-hex">#F5EDEA</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#D8B0A0"></div><div class="swatch-info"><div class="swatch-name">--danger-border</div><div class="swatch-hex">#D8B0A0</div></div></div>
+    </div>
+
+    <div class="ds-component-label">Languages</div>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#4A6880"></div><div class="swatch-info"><div class="swatch-name">--french</div><div class="swatch-hex">#4A6880</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7A5068"></div><div class="swatch-info"><div class="swatch-name">--english</div><div class="swatch-hex">#7A5068</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#3B6EA5"></div><div class="swatch-info"><div class="swatch-name">native (layer)</div><div class="swatch-hex">#3B6EA5</div></div></div>
+    </div>
+  </div>
+
+  <!-- ── 2. TYPOGRAPHY ───────────────────────────────────────────────────── -->
+  <div class="ds-section" id="typography">
+    <div class="ds-section-title">Typography — Inter</div>
+
+    <div class="type-row"><span class="type-spec">28px / 700 / -0.03em</span><span style="font-size:28px;font-weight:700;letter-spacing:-0.03em">Page Title</span></div>
+    <div class="type-row"><span class="type-spec">18px / 700 / -0.02em</span><span style="font-size:18px;font-weight:700;letter-spacing:-0.02em">Section Header</span></div>
+    <div class="type-row"><span class="type-spec">16px / 600</span><span style="font-size:16px;font-weight:600">Card Title</span></div>
+    <div class="type-row"><span class="type-spec">15px / 400 / lh 1.7</span><span style="font-size:15px;font-weight:400;line-height:1.7">Body text — the quick brown fox jumps over the lazy dog</span></div>
+    <div class="type-row"><span class="type-spec">14.5px / 400 / lh 1.75</span><span style="font-size:14.5px;line-height:1.75">Analysis text — comfortable reading for longer passages</span></div>
+    <div class="type-row"><span class="type-spec">13.5px / 400 / lh 1.5</span><span style="font-size:13.5px;color:var(--text-muted)">Entry preview, card secondary text</span></div>
+    <div class="type-row"><span class="type-spec">13px / 500</span><span style="font-size:13px;font-weight:500">Navigation, tab labels, form labels</span></div>
+    <div class="type-row"><span class="type-spec">12px / 400</span><span style="font-size:12px;color:var(--text-muted)">Timestamps, meta info, frequency</span></div>
+    <div class="type-row"><span class="type-spec">11.5px / 500</span><span style="font-size:11.5px;font-weight:500">Badge text</span></div>
+    <div class="type-row"><span class="type-spec">11px / 700 / uppercase / 0.07–0.1em</span><span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Section labels, overlines</span></div>
+    <div class="type-row"><span class="type-spec">15px / italic / line-through</span><span style="font-size:15px;font-style:italic;text-decoration:line-through;color:var(--danger)">Mistake original</span></div>
+    <div class="type-row"><span class="type-spec">15px / 600</span><span style="font-size:15px;font-weight:600;color:var(--success)">Mistake corrected</span></div>
+  </div>
+
+  <!-- ── 3. SPACING & RADIUS ─────────────────────────────────────────────── -->
+  <div class="ds-section" id="radius">
+    <div class="ds-section-title">Border Radius</div>
+    <div class="ds-row" style="align-items:center">
+      <div class="ds-col">
+        <div class="radius-box" style="border-radius:6px">6px<br><span style="font-weight:400;font-size:10px">--radius-sm</span></div>
+      </div>
+      <div class="ds-col">
+        <div class="radius-box" style="border-radius:10px">10px<br><span style="font-weight:400;font-size:10px">--radius</span></div>
+      </div>
+      <div class="ds-col">
+        <div class="radius-box" style="border-radius:16px">16px<br><span style="font-weight:400;font-size:10px">--radius-lg</span></div>
+      </div>
+      <div class="ds-col">
+        <div class="radius-box" style="border-radius:50%;width:80px;height:80px">50%<br><span style="font-weight:400;font-size:10px">pill/circle</span></div>
+      </div>
+      <div class="ds-col">
+        <div class="radius-box" style="border-radius:20px;width:80px;height:40px">20px<br><span style="font-weight:400;font-size:10px">badge</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. SHADOWS ─────────────────────────────────────────────────────── -->
+  <div class="ds-section" id="shadows">
+    <div class="ds-section-title">Shadows</div>
+    <div class="ds-row">
+      <div class="ds-col">
+        <div class="shadow-box" style="box-shadow:var(--shadow-sm)">shadow-sm</div>
+        <div class="ds-label">0 1px 2px / 6%</div>
+      </div>
+      <div class="ds-col">
+        <div class="shadow-box" style="box-shadow:var(--shadow)">shadow</div>
+        <div class="ds-label">0 2px 8px / 8%</div>
+      </div>
+      <div class="ds-col">
+        <div class="shadow-box" style="box-shadow:var(--shadow-lg)">shadow-lg</div>
+        <div class="ds-label">0 8px 24px / 12%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. BUTTONS ─────────────────────────────────────────────────────── -->
+  <div class="ds-section" id="buttons">
+    <div class="ds-section-title">Buttons</div>
+
+    <div class="ds-component-label">Variants</div>
+    <div class="ds-row" style="align-items:center;margin-bottom:20px">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-ghost">Ghost</button>
+      <button class="btn btn-success">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Success
+      </button>
+      <button class="btn btn-danger">Danger</button>
+    </div>
+
+    <div class="ds-component-label">Sizes</div>
+    <div class="ds-row" style="align-items:center;margin-bottom:20px">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+    </div>
+
+    <div class="ds-component-label">States</div>
+    <div class="ds-row" style="align-items:center">
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary" style="background:var(--primary-hover)">Hover</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+      <button class="btn btn-primary btn-loading">Analyzing</button>
+    </div>
+  </div>
+
+  <!-- ── 6. BADGES ──────────────────────────────────────────────────────── -->
+  <div class="ds-section" id="badges">
+    <div class="ds-section-title">Badges & Pills</div>
+
+    <div class="ds-component-label">Language</div>
+    <div class="ds-row" style="margin-bottom:16px">
+      <span class="badge badge-french">French</span>
+      <span class="badge badge-english">English</span>
+    </div>
+
+    <div class="ds-component-label">Status</div>
+    <div class="ds-row" style="margin-bottom:16px">
+      <span class="badge badge-draft">Draft</span>
+      <span class="badge badge-analyzed">Analyzed</span>
+      <span class="badge badge-practiced">Practiced</span>
+      <span class="badge badge-due">⏰ Due for review</span>
+    </div>
+
+    <div class="ds-component-label">Error Type</div>
+    <div class="ds-row" style="margin-bottom:16px">
+      <span class="badge badge-error-type">grammar</span>
+      <span class="badge badge-error-type">vocabulary</span>
+      <span class="badge badge-error-type">preposition</span>
+      <span class="badge badge-error-type">sentence structure</span>
+      <span class="badge badge-error-type">naturalness</span>
+      <span class="badge badge-error-type">spelling</span>
+    </div>
+
+    <div class="ds-component-label">Layer</div>
+    <div class="ds-row" style="margin-bottom:16px">
+      <span class="badge badge-layer-correction">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Grammar
+      </span>
+      <span class="badge badge-layer-native">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Native Style
+      </span>
+    </div>
+
+    <div class="ds-component-label">Misc</div>
+    <div class="ds-row">
+      <span class="badge badge-neutral">Informal</span>
+      <span class="badge badge-neutral">Written</span>
+      <span class="badge badge-neutral">📌 Travel</span>
+    </div>
+  </div>
+
+  <!-- ── 7. NAVIGATION ──────────────────────────────────────────────────── -->
+  <div class="ds-section" id="navigation">
+    <div class="ds-section-title">Navigation</div>
+    <div class="ds-row">
+      <div class="nav-demo">
+        <button class="nav-item active" data-view="writing-room">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>Writing Room</span>
+        </button>
+        <button class="nav-item" data-view="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="mistake-library">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>Mistake Library</span>
+          <span class="nav-badge">5</span>
+        </button>
+      </div>
+      <div class="ds-col" style="gap:6px;font-size:12px;color:var(--text-muted);margin-top:8px">
+        <div>Default: text-muted, hover bg</div>
+        <div>Active: primary-light bg, primary text</div>
+        <div>Badge: danger bg, white text</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 8. FORM ELEMENTS ───────────────────────────────────────────────── -->
+  <div class="ds-section" id="forms">
+    <div class="ds-section-title">Form Elements</div>
+
+    <div class="ds-component-label">Session Selector</div>
+    <div class="ds-row" style="margin-bottom:20px;align-items:center">
+      <span class="session-label">Session</span>
+      <select class="session-select"><option>English</option><option>French</option></select>
+      <select class="session-select"><option>Informal</option><option>Formal</option></select>
+      <select class="session-select"><option>Written</option><option>Spoken</option></select>
+    </div>
+
+    <div class="ds-component-label">Filter Selects (Pill style)</div>
+    <div class="ds-row" style="margin-bottom:20px;align-items:center">
+      <select class="filter-select"><option>All Languages</option><option>French</option></select>
+      <select class="filter-select active"><option>Grammar</option></select>
+      <select class="filter-select"><option>All Registers</option></select>
+    </div>
+
+    <div class="ds-component-label">Layer Toggle</div>
+    <div class="ds-row mb-5">
+      <div class="layer-toggle-group">
+        <button class="layer-toggle-btn active correction">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Grammar
+        </button>
+        <button class="layer-toggle-btn">All</button>
+        <button class="layer-toggle-btn native">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Native Style
+        </button>
+      </div>
+    </div>
+
+    <div class="ds-component-label">View Toggle</div>
+    <div class="ds-row mb-5">
+      <div class="view-toggle">
+        <button class="toggle-btn active">By Topic</button>
+        <button class="toggle-btn">Calendar</button>
+      </div>
+    </div>
+
+    <div class="ds-component-label">Textarea</div>
+    <div style="max-width:480px">
+      <div class="write-card">
+        <textarea class="write-textarea" placeholder="Write something in your target language…" rows="3"></textarea>
+        <div class="write-actions">
+          <div class="write-meta">
+            <select class="session-select" style="font-size:12px;padding:3px 24px 3px 8px">
+              <option>French · Informal · Written</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-sm">Analyze</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-component-label">Focus State</div>
+    <div style="max-width:360px">
+      <textarea class="practice-textarea" style="border-color:var(--border-focus);box-shadow:0 0 0 3px var(--focus-ring)" placeholder="Focused input…" rows="2"></textarea>
+    </div>
+  </div>
+
+  <!-- ── 9. TABS ─────────────────────────────────────────────────────────── -->
+  <div class="ds-section" id="tabs">
+    <div class="ds-section-title">Tabs</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;max-width:540px">
+      <div class="analysis-tabs">
+        <button class="analysis-tab-btn">
+          Original
+        </button>
+        <button class="analysis-tab-btn active">
+          Corrected
+          <span class="tab-count">3</span>
+        </button>
+        <button class="analysis-tab-btn">
+          Native Speaker
+          <span class="tab-count">5</span>
+        </button>
+      </div>
+      <div class="analysis-tab-content">
+        <div class="diff-legend">
+          <span class="diff-legend-item"><span class="inline-del" style="pointer-events:none">error</span> original error</span>
+          <span class="diff-legend-item"><span class="inline-ins">fix</span> correction</span>
+        </div>
+        <p style="font-size:14.5px;line-height:1.75">
+          J'ai <span class="inline-del">allé</span> <span class="inline-ins">été</span> au marché hier et j'ai acheté des légumes frais.
+        </p>
+        <div class="changes-divider"></div>
+        <div class="changes-section-title">Changes explained</div>
+        <div class="analysis-changes">
+          <div class="analysis-change-item">
+            <span class="change-before">allé</span> → <span class="change-after">été</span>
+            <div class="change-explanation">Use 'être' as auxiliary with 'aller' in passé composé.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10. MISTAKE CARD ────────────────────────────────────────────────── -->
+  <div class="ds-section" id="mistake-card">
+    <div class="ds-section-title">Mistake Card</div>
+
+    <div class="ds-component-label">Default (collapsed)</div>
+    <div class="mistake-card" style="max-width:680px">
+      <div class="mistake-card-top">
+        <div class="mistake-expressions" style="flex:1">
+          <div>
+            <span class="mistake-original">je sentir</span>
+            <span class="mistake-arrow">→</span>
+            <span class="mistake-corrected">je me sens</span>
+          </div>
+          <div class="mistake-explanation">Reflexive verb 'se sentir' requires the reflexive pronoun 'me' and conjugated form 'sens'.</div>
+        </div>
+        <svg class="mistake-expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-light)"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="mistake-card-meta">
+        <span class="badge badge-french">French</span>
+        <span class="badge badge-neutral">Informal</span>
+        <span class="badge badge-neutral">Written</span>
+        <span class="badge badge-error-type">grammar</span>
+        <span class="badge badge-layer-correction"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg> Grammar</span>
+      </div>
+      <div class="mistake-card-footer">
+        <div class="mistake-freq">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Seen 2× · Practiced 1× · Next review: Mar 3
+        </div>
+        <div class="mistake-actions">
+          <button class="btn btn-secondary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Practice</button>
+          <button class="btn btn-success btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Mastered</button>
+          <button class="btn btn-ghost btn-sm">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-component-label">Expanded (with context)</div>
+    <div class="mistake-card expanded" style="max-width:680px">
+      <div class="mistake-card-top">
+        <div class="mistake-expressions" style="flex:1">
+          <div>
+            <span class="mistake-original">je sentir</span>
+            <span class="mistake-arrow">→</span>
+            <span class="mistake-corrected">je me sens</span>
+          </div>
+          <div class="mistake-explanation">Reflexive verb 'se sentir' requires the reflexive pronoun 'me' and conjugated form 'sens'.</div>
+        </div>
+        <svg class="mistake-expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-light);transform:rotate(180deg)"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="mistake-context-body">
+        <div class="mistake-context-label">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          From your entry
+        </div>
+        <div class="mistake-context-text">
+          <span class="mistake-highlight">je sentir</span> très fatigué aujourd'hui, et je n'ai rien d'idée comment de ressourcer.
+        </div>
+        <div class="mistake-context-meta">
+          <span class="badge badge-french">French</span>
+          <span class="entry-topic">📌 Daily Life</span>
+          <span class="entry-timestamp">Feb 24, 2026 · 07:24 PM</span>
+        </div>
+      </div>
+      <div class="mistake-card-meta" style="margin-top:10px">
+        <span class="badge badge-french">French</span>
+        <span class="badge badge-neutral">Informal</span>
+        <span class="badge badge-neutral">Written</span>
+        <span class="badge badge-error-type">grammar</span>
+        <span class="badge badge-layer-correction"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/></svg> Grammar</span>
+        <span class="badge badge-due">⏰ Due for review</span>
+      </div>
+      <div class="mistake-card-footer">
+        <div class="mistake-freq">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Seen 2×
+        </div>
+        <div class="mistake-actions">
+          <button class="btn btn-secondary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Practice</button>
+          <button class="btn btn-success btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Mastered</button>
+          <button class="btn btn-ghost btn-sm">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-component-label">Due for review (left accent border)</div>
+    <div class="mistake-card is-due" style="max-width:680px">
+      <div class="mistake-card-top">
+        <div class="mistake-expressions" style="flex:1">
+          <div>
+            <span class="mistake-original">made agreement</span>
+            <span class="mistake-arrow">→</span>
+            <span class="mistake-corrected">made an agreement</span>
+          </div>
+          <div class="mistake-explanation">Missing indefinite article before singular countable noun.</div>
+        </div>
+        <svg class="mistake-expand-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-light)"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="mistake-card-meta">
+        <span class="badge badge-english">English</span>
+        <span class="badge badge-error-type">grammar</span>
+        <span class="badge badge-due">⏰ Due for review</span>
+      </div>
+      <div class="mistake-card-footer">
+        <div class="mistake-freq"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Seen 1×</div>
+        <div class="mistake-actions">
+          <button class="btn btn-secondary btn-sm">Practice</button>
+          <button class="btn btn-success btn-sm">Mastered</button>
+          <button class="btn btn-ghost btn-sm">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-component-label">Mastered (dimmed)</div>
+    <div class="mastered-card" style="max-width:680px">
+      <div class="mastered-expressions">
+        <span class="mistake-original" style="font-size:13px">I go to the store yesterday</span>
+        <span class="mistake-arrow">→</span>
+        <span class="mistake-corrected" style="font-size:13px">I went to the store yesterday</span>
+      </div>
+      <span class="badge badge-english">English</span>
+    </div>
+  </div>
+
+  <!-- ── 11. INLINE DIFF ────────────────────────────────────────────────── -->
+  <div class="ds-section" id="inline-diff">
+    <div class="ds-section-title">Inline Diff Marks</div>
+    <div class="ds-component-card">
+      <p class="diff-demo">
+        J'ai <span class="inline-del">allé</span> <span class="inline-ins">été</span> au marché et j'ai <span class="inline-del">achetté</span> <span class="inline-ins">acheté</span> des légumes.
+      </p>
+      <div class="ds-row" style="margin-top:16px">
+        <div class="ds-col">
+          <span class="inline-del">deleted</span>
+          <div class="ds-label">danger bg + strikethrough</div>
+        </div>
+        <div class="ds-col">
+          <span class="inline-ins">inserted</span>
+          <div class="ds-label">success bg + bold</div>
+        </div>
+        <div class="ds-col">
+          <span class="mistake-highlight">highlighted</span>
+          <div class="ds-label">warning bg — mistake in context</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 12. MODAL ──────────────────────────────────────────────────────── -->
+  <div class="ds-section" id="modal">
+    <div class="ds-section-title">Modal</div>
+    <div style="max-width:580px">
+      <div class="modal-box" style="position:relative;max-height:none">
+        <div class="modal-header">
+          <div class="modal-title">Practice Session</div>
+          <button class="modal-close">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="practice-mistake-box">
+            <div class="practice-mistake-label">Target Expression</div>
+            <div class="practice-mistake-expressions">
+              <span class="mistake-original">je sentir</span>
+              <span class="mistake-arrow">→</span>
+              <span class="mistake-corrected">je me sens</span>
+            </div>
+          </div>
+          <div class="practice-scenario">
+            Vous discutez avec un ami après une longue journée de travail. Il vous demande comment vous allez. Répondez-lui en utilisant l'expression correcte.
+          </div>
+          <div class="practice-response-label">Your response in French</div>
+          <textarea class="practice-textarea" placeholder="Write your response here…" rows="3"></textarea>
+          <div class="practice-feedback success" style="display:block">
+            <div class="practice-feedback-title">✓ Correct!</div>
+            Great use of the reflexive pronoun. Your response sounds natural and fluent.
+            <div class="practice-target-found">Found: "je me sens vraiment fatigué"</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-ghost">Skip</button>
+          <button class="btn btn-primary">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 13. FEEDBACK STATES ─────────────────────────────────────────────── -->
+  <div class="ds-section" id="feedback">
+    <div class="ds-section-title">Feedback & States</div>
+
+    <div class="ds-component-label">Practice Feedback</div>
+    <div class="ds-row" style="max-width:680px;flex-direction:column">
+      <div class="practice-feedback success" style="display:block">
+        <div class="practice-feedback-title">✓ Correct!</div>
+        Great use of the reflexive pronoun. Your response sounds very natural.
+      </div>
+      <div class="practice-feedback retry" style="display:block">
+        <div class="practice-feedback-title">Almost! Try again</div>
+        You're on the right track, but remember to include the reflexive pronoun 'me'.
+      </div>
+    </div>
+
+    <div class="ds-component-label" style="margin-top:16px">Toast Notifications</div>
+    <div class="ds-row">
+      <div class="toast" style="position:relative;bottom:auto;right:auto">3 new mistakes logged</div>
+      <div class="toast success" style="position:relative;bottom:auto;right:auto">Analysis complete!</div>
+      <div class="toast error" style="position:relative;bottom:auto;right:auto">Analysis failed</div>
+    </div>
+
+    <div class="ds-component-label" style="margin-top:16px">Due Banner</div>
+    <div style="max-width:480px">
+      <div class="due-banner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span><strong>5 mistakes</strong> are due for review today</span>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto">Start Practice</button>
+      </div>
+    </div>
+
+    <div class="ds-component-label" style="margin-top:16px">Empty State</div>
+    <div class="empty-state" style="max-width:320px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+      <div class="empty-state-icon">📚</div>
+      <strong>No mistakes yet</strong>
+      <p>Analyze an entry to start building your library.</p>
+    </div>
+  </div>
+
+</body>
+</html>

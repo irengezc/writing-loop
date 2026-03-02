@@ -1,0 +1,8 @@
+node_modules/
+.env
+data/*.json
+
+*storybook.log
+storybook-static
+.DS_Store
+.claude/

@@ -1,0 +1,30 @@
+{
+  "name": "lingua-log",
+  "version": "1.0.0",
+  "description": "AI-Powered Language Expression Learning App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.36.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.13",
+    "storybook": "^10.2.13",
+    "@storybook/html-vite": "^10.2.13",
+    "@chromatic-com/storybook": "^5.0.1",
+    "@storybook/addon-vitest": "^10.2.13",
+    "@storybook/addon-a11y": "^10.2.13",
+    "@storybook/addon-docs": "^10.2.13",
+    "vitest": "^4.0.18",
+    "playwright": "^1.58.2",
+    "@vitest/browser-playwright": "^4.0.18",
+    "@vitest/coverage-v8": "^4.0.18"
+  }
+}
