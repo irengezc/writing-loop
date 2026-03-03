@@ -1,12 +1,16 @@
 require('dotenv').config({ override: true });
 const express = require('express');
 const Anthropic = require('@anthropic-ai/sdk');
-const fs = require('fs');
+const { Redis } = require('@upstash/redis');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 // ── Retry helper ──────────────────────────────────────────────────────────────
 async function withRetry(fn, maxRetries = 3) {
@@ -28,22 +32,13 @@ async function withRetry(fn, maxRetries = 3) {
 }
 
 // ── Data helpers ──────────────────────────────────────────────────────────────
-const DATA_DIR = path.join(__dirname, 'data');
-const ENTRIES_FILE = path.join(DATA_DIR, 'entries.json');
-const MISTAKES_FILE = path.join(DATA_DIR, 'mistakes.json');
-
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-
-function readData(file) {
-  try {
-    if (!fs.existsSync(file)) return [];
-    const raw = fs.readFileSync(file, 'utf8').trim();
-    return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
+async function readData(key) {
+  const data = await redis.get(key);
+  return data || [];
 }
 
-function writeData(file, data) {
-  fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+async function writeData(key, data) {
+  await redis.set(key, data);
 }
 
 function uid() {
@@ -64,13 +59,13 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ── ENTRIES ───────────────────────────────────────────────────────────────────
-app.get('/api/entries', (_req, res) => {
-  const entries = readData(ENTRIES_FILE);
+app.get('/api/entries', async (_req, res) => {
+  const entries = await readData('entries');
   res.json(entries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 });
 
-app.post('/api/entries', (req, res) => {
-  const entries = readData(ENTRIES_FILE);
+app.post('/api/entries', async (req, res) => {
+  const entries = await readData('entries');
   const entry = {
     id: uid(),
     text: req.body.text,
@@ -84,47 +79,47 @@ app.post('/api/entries', (req, res) => {
     updatedAt: new Date().toISOString(),
   };
   entries.push(entry);
-  writeData(ENTRIES_FILE, entries);
+  await writeData('entries', entries);
   res.json(entry);
 });
 
-app.put('/api/entries/:id', (req, res) => {
-  const entries = readData(ENTRIES_FILE);
+app.put('/api/entries/:id', async (req, res) => {
+  const entries = await readData('entries');
   const idx = entries.findIndex(e => e.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
   entries[idx] = { ...entries[idx], ...req.body, updatedAt: new Date().toISOString() };
-  writeData(ENTRIES_FILE, entries);
+  await writeData('entries', entries);
   res.json(entries[idx]);
 });
 
-app.delete('/api/entries/:id', (req, res) => {
-  const entries = readData(ENTRIES_FILE).filter(e => e.id !== req.params.id);
-  writeData(ENTRIES_FILE, entries);
+app.delete('/api/entries/:id', async (req, res) => {
+  const entries = (await readData('entries')).filter(e => e.id !== req.params.id);
+  await writeData('entries', entries);
   res.json({ success: true });
 });
 
 // ── MISTAKES ──────────────────────────────────────────────────────────────────
-app.get('/api/mistakes', (_req, res) => {
+app.get('/api/mistakes', async (_req, res) => {
   const now = new Date();
-  const mistakes = readData(MISTAKES_FILE).map(m => ({
+  const mistakes = (await readData('mistakes')).map(m => ({
     ...m,
     isDue: m.status === 'active' && new Date(m.nextReview) <= now,
   }));
   res.json(mistakes);
 });
 
-app.put('/api/mistakes/:id', (req, res) => {
-  const mistakes = readData(MISTAKES_FILE);
+app.put('/api/mistakes/:id', async (req, res) => {
+  const mistakes = await readData('mistakes');
   const idx = mistakes.findIndex(m => m.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
   mistakes[idx] = { ...mistakes[idx], ...req.body };
-  writeData(MISTAKES_FILE, mistakes);
+  await writeData('mistakes', mistakes);
   res.json(mistakes[idx]);
 });
 
-app.delete('/api/mistakes/:id', (req, res) => {
-  const mistakes = readData(MISTAKES_FILE).filter(m => m.id !== req.params.id);
-  writeData(MISTAKES_FILE, mistakes);
+app.delete('/api/mistakes/:id', async (req, res) => {
+  const mistakes = (await readData('mistakes')).filter(m => m.id !== req.params.id);
+  await writeData('mistakes', mistakes);
   res.json({ success: true });
 });
 
@@ -197,18 +192,18 @@ Rules:
     const analysis = safeParseJSON(message.content[0].text);
 
     // Update entry
-    const entries = readData(ENTRIES_FILE);
+    const entries = await readData('entries');
     const eIdx = entries.findIndex(e => e.id === entryId);
     if (eIdx !== -1) {
       entries[eIdx].status = 'Analyzed';
       entries[eIdx].topic = analysis.topic;
       entries[eIdx].analysis = analysis;
       entries[eIdx].updatedAt = new Date().toISOString();
-      writeData(ENTRIES_FILE, entries);
+      await writeData('entries', entries);
     }
 
     // Merge mistakes into library
-    const mistakes = readData(MISTAKES_FILE);
+    const mistakes = await readData('mistakes');
     let newCount = 0;
     (analysis.mistakes || []).forEach(m => {
       if (!m.original || !m.corrected) return;
@@ -244,7 +239,7 @@ Rules:
         newCount++;
       }
     });
-    writeData(MISTAKES_FILE, mistakes);
+    await writeData('mistakes', mistakes);
 
     res.json({
       success: true,
@@ -330,7 +325,7 @@ Return ONLY valid JSON — no markdown, no preamble:
 
     // Update spaced repetition schedule on success
     if (result.success) {
-      const mistakes = readData(MISTAKES_FILE);
+      const mistakes = await readData('mistakes');
       const idx = mistakes.findIndex(m => m.id === mistake.id);
       if (idx !== -1) {
         const reviewCount = (mistakes[idx].reviewCount || 0) + 1;
@@ -341,7 +336,7 @@ Return ONLY valid JSON — no markdown, no preamble:
         mistakes[idx].reviewCount = reviewCount;
         mistakes[idx].nextReview = nextReview.toISOString();
         mistakes[idx].lastPracticed = new Date().toISOString();
-        writeData(MISTAKES_FILE, mistakes);
+        await writeData('mistakes', mistakes);
         result.nextReviewDays = days;
       }
     }
